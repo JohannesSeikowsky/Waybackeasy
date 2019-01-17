@@ -14,18 +14,18 @@ def get(target_site, target_date):
 	if not availability["archived_snapshots"]:
 		raise FormatError("There maybe something off with the URL you passed in. Have a close look.")
 
-	# checking the date format passed in
+	# checking date format
 	date_split = target_date.split(".")
 	if len(date_split[0]) != 2 or len(date_split[1]) != 2 or len(date_split[2]) != 4:
 		raise FormatError("There maybe something off with the DATE you passed in. Have a close look.")
 
-	# retrieving a snapshot of target day
-	# format date for use with WB-machine format
+	# retrieving snapshot from target day
+	# format date to use with WB-machine dateformat
 	date = target_date.split(".")
 	day, month, year = date[0], date[1], date[2]
 	formatted_date = year + month + day
 
-	# get all timestamps that available for target day and choose one
+	# get all timestamps available for target day and choose one
 	wayback_api = "http://web.archive.org/cdx/search/cdx?url={}&fl=timestamp&output=json&from={}&to={}".format(target_site, formatted_date, formatted_date)
 	response = requests.get(wayback_api)
 	all_timestamps = json.loads(response.text)
