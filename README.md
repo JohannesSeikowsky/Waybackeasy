@@ -9,7 +9,7 @@ The insanely simple way to interface with the WayBackMachine.
 
 ```waybackeasy.get("https://news.ycombinator.com", "27.05.2016")```
 
-returns the html of news.ycombinator.com on the 27th of May, 2016 as recorded by the WB-machine.
+returns html of news.ycombinator.com on the 27th of May, 2016 as recorded by the WB-machine.
 
 ### Dateformat
 ```dd.mm.yyyy```
