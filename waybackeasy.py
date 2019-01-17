@@ -5,19 +5,19 @@ class FormatError(Exception):
 	pass
 
 def get(target_site, target_date):
-	""" get Waybackmachine snapshot of target site on target day """
+	""" get WB-machine snapshot of target site on target day """
 
 	# checking user inputs
 	# checking availability of target site
 	response = requests.get("http://archive.org/wayback/available?url={}".format(target_site))
 	availability = json.loads(response.text)
 	if not availability["archived_snapshots"]:
-		raise FormatError("We have the suspicion there maybe something wrong with the URL you passed in. Have a close look.")
+		raise FormatError("There maybe something off with the URL you passed in. Have a close look.")
 
 	# checking the date format passed in
 	date_split = target_date.split(".")
 	if len(date_split[0]) != 2 or len(date_split[1]) != 2 or len(date_split[2]) != 4:
-		raise FormatError("We have the suspicion there maybe something wrong with the DATE you passed in. Have a close look.")
+		raise FormatError("There maybe something off with the DATE you passed in. Have a close look.")
 
 	# retrieving a snapshot of target day
 	# format date for use with WB-machine format
@@ -25,7 +25,7 @@ def get(target_site, target_date):
 	day, month, year = date[0], date[1], date[2]
 	formatted_date = year + month + day
 
-	# get all timestamps available for target day, choose one
+	# get all timestamps that available for target day and choose one
 	wayback_api = "http://web.archive.org/cdx/search/cdx?url={}&fl=timestamp&output=json&from={}&to={}".format(target_site, formatted_date, formatted_date)
 	response = requests.get(wayback_api)
 	all_timestamps = json.loads(response.text)
@@ -35,12 +35,5 @@ def get(target_site, target_date):
 	# get html corresponding to chosen timestamp
 	res = requests.get("http://web.archive.org/web/{}/{}".format(target_timestamp, target_site))
 	return res.text.encode('utf-8')
-
-# res = get("spiegel.de", "11.01.2017")
-# print(res)
-
-
-
-
 
 
