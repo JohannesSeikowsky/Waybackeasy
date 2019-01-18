@@ -37,3 +37,5 @@ def get(target_site, target_date):
 	return res.text.encode('utf-8')
 
 
+result = get("news.ycombinator.com/", "27.05.2016")
+print(result)
